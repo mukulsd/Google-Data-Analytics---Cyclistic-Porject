@@ -1,0 +1,65 @@
+-- Combined all the data of 2021 into cyclistic.cycledata_2021
+
+-- To check if the table select is right one
+SELECT *
+FROM cyclistic.cycledata_2021
+
+-- Creating a duplicate to make sure we can manipulate and not change the main Data file
+create table cyclistic.cycledata_2021_process as
+select * from cyclistic.cycledata_2021
+
+--Process Phase
+
+
+-- To check if everything is in order
+select * from cyclistic.cycledata_2021_process
+
+-- Checking the Data_Type
+SELECT column_name, data_type 
+FROM information_schema.columns 
+WHERE table_name = 'cycledata_2021_process'
+
+-- Check for null in the table
+SELECT *
+FROM cyclistic.cycledata_2021_process
+WHERE
+ride_id IS NULL
+OR rideable_type IS NULL
+OR started_at IS NULL
+OR ended_at  IS NULL 
+OR start_station_name IS NULL
+OR end_station_name IS NULL
+OR member_casual IS NULL
+
+
+-- Deleting all the nulls
+
+delete from cyclistic.cycledata_2021_process
+where
+ride_id IS NULL
+OR rideable_type IS NULL
+OR started_at IS NULL
+OR ended_at  IS NULL 
+OR start_station_name IS NULL
+OR end_station_name IS NULL
+OR member_casual IS NULL
+
+-- Processed Data which doesn't include null
+SELECT * FROM cyclistic.cycledata_2021_process
+WHERE
+ride_id IS NULL
+OR rideable_type IS NULL
+OR started_at IS NULL
+OR ended_at  IS NULL 
+OR start_station_name IS NULL
+OR end_station_name IS NULL
+OR member_casual IS NULL
+
+-- To check if any duplicate data is present in ride_id
+
+select count(ride_id)
+from cyclistic.cycledata_2021_process
+group by ride_id
+having count(ride_id) > 1
+
+-- Towards Process phase
